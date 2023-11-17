@@ -1,6 +1,7 @@
 from flask import Flask
 from sqlalchemy import inspect
 from flask_login import LoginManager
+from flask_cors import CORS, cross_origin
 from .db.db import db
 from .db.seed import seed_database 
 from .models.task import Task
@@ -9,6 +10,7 @@ from .routes.v1 import api_v1
 
 def create_app():
     app = Flask(__name__)
+    cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
     # Configuration for SQLite database
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
