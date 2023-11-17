@@ -1,4 +1,5 @@
 from flask import Flask
+from sqlalchemy import inspect
 from app.db.db import db
 from .routes.v1 import api_v1
 from .models.task import Task
@@ -14,8 +15,14 @@ def create_app():
 
     with app.app_context():
         # Delete any previous information
-        db.session.query(Task).delete()
-        db.session.commit()
+        try:
+            inspector = inspect(db.engine)
+            if inspector.has_table(Task.__tablename__):
+                db.session.query(Task).delete()
+                db.session.commit()
+
+        except Exception as e:
+            db.session.rollback()
         
         # Create database tables
         db.create_all()

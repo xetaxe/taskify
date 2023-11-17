@@ -4,12 +4,12 @@ case "$1" in
     ;;
 
   "back")
-    (cd backend; python run.py)
+    (cd backend; python -B run.py)
     ;;
 
   "dev")
     (cd frontend; npm run dev) &
-    (cd backend; python run.py)
+    (cd backend; python -B run.py)
     ;;
 
   "build")
