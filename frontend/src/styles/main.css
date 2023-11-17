@@ -1,0 +1,27 @@
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  --wrapper-size: 1024px;
+}
+
+a, a:hover {
+  text-decoration: none;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  justify-content: center;
+}
+
+#root {
+  flex-basis: 100%;
+  min-width: 320px;
+  max-width: 1920px;
+  min-height: 100vh;
+}
