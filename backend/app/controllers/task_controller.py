@@ -15,8 +15,8 @@ class TaskController:
         return Task.query.get(task_id)
     
     @staticmethod
-    def create_task(title, description, author):
-        new_task = Task(title=title, description=description, author=author)
+    def create_task(title, description, author_id):
+        new_task = Task(title=title, description=description, author_id=author_id)
         try:
             db.session.add(new_task)
             db.session.commit()
@@ -26,7 +26,7 @@ class TaskController:
             return {"error": str(e)}
 
     @staticmethod
-    def update_task(task_id, title, description, author):
+    def update_task(task_id, title, description, author_id):
         try:
             task = Task.query.get(task_id)
             if not task:
@@ -37,8 +37,8 @@ class TaskController:
                 task.title = title
             if description:
                 task.description = description
-            if author:
-                task.author = author
+            if author_id:
+                task.author_id = author_id
 
             db.session.commit()
             return {"message": "Task updated successfully"}
