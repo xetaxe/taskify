@@ -1,5 +1,5 @@
 from flask import request, jsonify
-from flask_login import logout_user
+from flask_login import login_required
 from app.controllers.register_controller import RegisterController
 from . import api_v1
 
@@ -21,6 +21,10 @@ def login():
     return jsonify(result),
 
 @api_v1.route('/logout')
+@login_required
 def logout():
-    logout_user()
+    result = RegisterController.handle_logout()
+    if 'error' in result:
+        return jsonify(result), 500
+    
     return jsonify({"message": "Logout successful"})

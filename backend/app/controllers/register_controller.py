@@ -1,4 +1,5 @@
 from flask_login import login_user
+from flask_login import logout_user
 from app.models.user import User
 
 class RegisterController:
@@ -11,3 +12,10 @@ class RegisterController:
 
         login_user(user)
         return {"message": "Login successful"}, 200
+    
+    def handle_logout():
+        try:
+            logout_user()
+            return {"message": "Logout successful"}, 200
+        except Exception as e:
+            return {"error": str(e)}

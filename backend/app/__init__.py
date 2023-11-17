@@ -17,7 +17,7 @@ def create_app():
     db.init_app(app)
 
     with app.app_context():
-        # Delete any previous information
+        # Delete any previous DB Task and User tables, if they exist
         try:
             inspector = inspect(db.engine)
             if inspector.has_table(Task.__tablename__):
