@@ -2,11 +2,14 @@ import { useEffect, useState } from "react";
 import { TaskList } from "./components/TaskList";
 import { Layout } from "./components/layout/Layout";
 import useCheckLoginStatus from "./hooks/useCheckLoginStatus";
-import { CreateTask } from "./components/CreateTask";
+// import { CreateTaskButton } from "./components/CreateTaskButton";
+import { LoginModal } from "./components/LoginModal";
+import { CreateTaskButton } from "./components/CreateTaskButton";
 
 function App() {
   
   const [tasks, setTasks] = useState([])
+  const [showLoginModal, setShowLoginModal] = useState(false)
 
   const isLoggedIn = useCheckLoginStatus()
 
@@ -24,14 +27,12 @@ function App() {
   }, []);
 
   return (
-    <Layout>
+    <Layout isLoggedIn={isLoggedIn} showLogin={() => setShowLoginModal(true)}>
       <TaskList tasks={tasks}/>
-      {
-        isLoggedIn ?
-          <div>hola</div>
-        :
-          <CreateTask />
-      }
+      { isLoggedIn ? <div>hola</div>
+        : <CreateTaskButton />}
+      { showLoginModal ? <LoginModal closeModal={() => setShowLoginModal(false)} onLogin={() => console.log("hola")} />
+        : null}
     </Layout>
   )
 }

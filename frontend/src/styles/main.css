@@ -71,6 +71,7 @@ body {
 
 .header_login {
   margin-left: auto;
+  cursor: pointer;
 }
 
 main {

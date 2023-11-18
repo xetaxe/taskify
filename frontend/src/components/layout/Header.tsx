@@ -1,4 +1,9 @@
-export const Header = () => {
+type HeaderProps = {
+  isLoggedIn: boolean,
+  showLogin: () => void
+}
+
+export const Header = ({isLoggedIn, showLogin}: HeaderProps) => {
   return (
     <header className="header">
       <nav className="header_nav">
@@ -10,9 +15,14 @@ export const Header = () => {
             taskify
           </span>
         </a>
-        <span className="header_login">
-          Login
-        </span>
+        { isLoggedIn ? 
+            null
+          : 
+          <span className="header_login" onClick={showLogin}>
+            Login
+          </span>
+        }
+
       </nav>
     </header>
   );

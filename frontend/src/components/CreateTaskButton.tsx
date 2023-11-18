@@ -1,4 +1,4 @@
-export const CreateTask = () => {
+export const CreateTaskButton = () => {
   return (
     <span className="createtask">
       <span className="createtask_icon">
