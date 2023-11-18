@@ -5,11 +5,13 @@ import useCheckLoginStatus from "./hooks/useCheckLoginStatus";
 // import { CreateTaskButton } from "./components/CreateTaskButton";
 import { LoginModal } from "./components/LoginModal";
 import { CreateTaskButton } from "./components/CreateTaskButton";
+import { CreateTaskModal } from "./components/CreateTaskModal";
 
 function App() {
   
   const [tasks, setTasks] = useState([])
   const [showLoginModal, setShowLoginModal] = useState(false)
+  const [showCreateTaskModal, setShowCreateTaskModal] = useState(false)
 
   const isLoggedIn = useCheckLoginStatus()
 
@@ -29,9 +31,11 @@ function App() {
   return (
     <Layout isLoggedIn={isLoggedIn} showLogin={() => setShowLoginModal(true)}>
       <TaskList tasks={tasks}/>
-      { isLoggedIn ? <div>hola</div>
-        : <CreateTaskButton />}
+      { isLoggedIn ? null
+        : <CreateTaskButton createTask={() => setShowCreateTaskModal(true)}/>}
       { showLoginModal ? <LoginModal closeModal={() => setShowLoginModal(false)} onLogin={() => console.log("hola")} />
+        : null}
+      { showCreateTaskModal ? <CreateTaskModal closeModal={() => setShowCreateTaskModal(false)}/>
         : null}
     </Layout>
   )
