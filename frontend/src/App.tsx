@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { TaskList } from "./components/TaskList";
+import { Layout } from "./components/layout/Layout";
 
 function App() {
   
@@ -19,9 +20,9 @@ function App() {
   }, []);
 
   return (
-    <>
+    <Layout>
       <TaskList tasks={tasks}/>
-    </>
+    </Layout>
   )
 }
 
