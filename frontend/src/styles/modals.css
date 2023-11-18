@@ -73,7 +73,7 @@
 }
 
 
-.createmodal {
+.taskmodal {
     width: 100%;
     height: 100%;
     position: absolute;
@@ -82,18 +82,14 @@
     background-color: rgba(0, 0, 0, 0.3);
 }
 
-.createmodal_wrapper {
+.taskmodal_wrapper {
     max-width: 600px;
     margin: 0 auto;
     padding: 0.75rem;
     padding-top: min(10vh, 6rem);
-    /* display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: stretch; */
 }
 
-.createmodal_menu {
+.taskmodal_menu {
     padding: 0.5rem 1rem;
     position: sticky;
     display: flex;
@@ -105,29 +101,29 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.createmodal_title {
+.taskmodal_title {
     margin-top: 0.5rem;
     font-size: 1.25rem;
 }
 
-.createmodal_close {
+.taskmodal_close {
     position: absolute;
     top: 6px;
     right: 8px;
 }
 
-.createmodal_close > img {
+.taskmodal_close > img {
     transform: rotate(45deg);
     width: 32px;
 }
 
-.createmodal_close:hover > img {
+.taskmodal_close:hover > img {
     background-color: #eee;
     border-radius: 100vh;
     cursor: pointer;
 }
 
-.createmodal_inputs {
+.taskmodal_inputs {
     align-self: center;
     width: 100%;
     display: flex;
@@ -135,13 +131,13 @@
     gap: 0.5rem;
 }
 
-.createmodal_inputs > input {
+.taskmodal_inputs > input {
     padding: 0.25rem 0.5rem;
     border-radius: 4px;
     border-width: 1px;
 }
 
-.createmodal_inputs > textarea {
+.taskmodal_inputs > textarea {
     height: 6rem;
     padding: 0.25rem 0.5rem;
     border-radius: 4px;
@@ -150,7 +146,7 @@
     resize: none;
 }
 
-.createmodal_inputs > button {
+.taskmodal_inputs > button {
     margin: 0.5rem 0;
     padding: 0.5rem 0.5rem;
     background-color: var(--layout-color);

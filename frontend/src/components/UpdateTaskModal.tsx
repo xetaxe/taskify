@@ -1,13 +1,15 @@
 import { useState } from 'react';
 
-type CreateTaskModalProps = {
+type UpdateTaskModalProps = {
+  initialTitle: string,
+  initialDescription: string
   closeModal: () => void,
 }
 
-export const CreateTaskModal = ({ closeModal }: CreateTaskModalProps) => {
+export const UpdateTaskModal = ({ initialTitle, initialDescription, closeModal }: UpdateTaskModalProps) => {
 
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
+  const [title, setTitle] = useState(initialTitle);
+  const [description, setDescription] = useState(initialDescription);
 
   const handleSubmit = () => {
     if (title && description) {
@@ -27,7 +29,7 @@ export const CreateTaskModal = ({ closeModal }: CreateTaskModalProps) => {
             <img src="/icons/add.svg" alt="" />
           </span>
           <div className="taskmodal_title">
-            New task:
+            Update task:
           </div>
           <div className="taskmodal_inputs">
             <input
@@ -42,7 +44,7 @@ export const CreateTaskModal = ({ closeModal }: CreateTaskModalProps) => {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
             />
-            <button onClick={handleSubmit}>Add task</button>
+            <button onClick={handleSubmit}>Update task</button>
           </div>
         </div>
       </div>
