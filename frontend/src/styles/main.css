@@ -13,10 +13,15 @@ a, a:hover {
   text-decoration: none;
 }
 
+p {
+  margin: 0
+}
+
 body {
   margin: 0;
   display: flex;
   justify-content: center;
+  background-color: #b3acac;
 }
 
 #root {
@@ -24,4 +29,5 @@ body {
   min-width: 320px;
   max-width: 1920px;
   min-height: 100vh;
+  background-color: #fcfcfc;
 }

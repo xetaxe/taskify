@@ -17,5 +17,5 @@ class Task(db.Model):
             'title': self.title,
             'description': self.description,
             'author': self.author.username,
-            'created_at': self.created_at.strftime('%Y-%m-%d %H:%M:%S')
+            'created_at': self.created_at.strftime('%H:%M %d-%m-%Y')
         }
