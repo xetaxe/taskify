@@ -1,10 +1,14 @@
 import { useEffect, useState } from "react";
 import { TaskList } from "./components/TaskList";
 import { Layout } from "./components/layout/Layout";
+import useCheckLoginStatus from "./hooks/useCheckLoginStatus";
+import { CreateTask } from "./components/CreateTask";
 
 function App() {
   
   const [tasks, setTasks] = useState([])
+
+  const isLoggedIn = useCheckLoginStatus()
 
   useEffect(() => {
     fetch("http://localhost:8080/api/v1/tasks", {
@@ -22,6 +26,12 @@ function App() {
   return (
     <Layout>
       <TaskList tasks={tasks}/>
+      {
+        isLoggedIn ?
+          <div>hola</div>
+        :
+          <CreateTask />
+      }
     </Layout>
   )
 }

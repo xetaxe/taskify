@@ -75,19 +75,23 @@ body {
 
 main {
   flex-grow: 1;
+  position: relative;
 }
+
 .main_container {
   margin: 0 auto;
   max-width: var(--max-content-width);
+  height: 100%;
+  overflow-y: scroll;
 }
 
 .footer {
   width: 100%;
-  position: absolute;
   bottom: 0;
   border-top: 1px solid #ccc;
-  /* background-color: var(--layout-color); */
+  background-color: #fcfcfc;
   color: var(--layout-color);
+  z-index: 1;
 }
 
 .footer_text {
