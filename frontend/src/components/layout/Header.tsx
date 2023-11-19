@@ -16,7 +16,7 @@ export const Header = ({isLoggedIn, showLogin}: HeaderProps) => {
           </span>
         </a>
         { isLoggedIn ? 
-            null
+            <img className="header_logout" src="/icons/logout.svg" alt="Taskify logo" />
           : 
           <span className="header_login" onClick={showLogin}>
             Login

@@ -74,6 +74,12 @@ body {
   cursor: pointer;
 }
 
+.header_login {
+  margin-left: auto;
+  cursor: pointer;
+  filter: invert(-1);
+}
+
 main {
   flex-grow: 1;
   position: relative;

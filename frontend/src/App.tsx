@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+
 import { TaskList } from "./components/TaskList";
 import { Layout } from "./components/layout/Layout";
 import { LoginModal } from "./components/LoginModal";
 import { CreateTaskButton } from "./components/CreateTaskButton";
 import { CreateTaskModal } from "./components/CreateTaskModal";
 import { UpdateTaskModal, type ShowUpdateTaskModal } from "./components/UpdateTaskModal";
+import { getAllTasks } from "./api/taskApi";
 
 function App() {
   
-  const [tasks, setTasks] = useState([])
   const [showLoginModal, setShowLoginModal] = useState(false)
   const [showCreateTaskModal, setShowCreateTaskModal] = useState(false)
   const [showUpdateTaskModal, setShowUpdateTaskModal] = useState<ShowUpdateTaskModal>({show: false})
@@ -24,22 +26,26 @@ function App() {
     setIsLoggedIn(cookieExists);
   }, []);
 
-  useEffect(() => {
-    fetch("http://localhost:8080/api/v1/tasks", {
-      headers: {
-        'Content-Type': 'application/json'
-      },
-    })
-    .then((response) => response.json())
-    .then((data) => {
-      setTasks(data.tasks)
-    })
-    .catch((err) => console.log(err));
-  }, []);
+
+  const { isLoading, isError, isSuccess, data } = useQuery({
+    queryKey: ['tasks'],
+    queryFn: getAllTasks,
+  })
 
   return (
     <Layout isLoggedIn={isLoggedIn} showLogin={() => setShowLoginModal(true)}>
-      <TaskList tasks={tasks} isLoggedIn={isLoggedIn} updateTask={setShowUpdateTaskModal}/>
+      { isLoading ?
+          <span>Loading...</span>
+        : null
+      }
+      { isError ?
+          <span>There was some error fetching the data. Please try again later.</span>
+        : null
+      }
+      { isSuccess ?
+          <TaskList tasks={data.tasks} isLoggedIn={isLoggedIn} updateTask={setShowUpdateTaskModal}/>
+        : null          
+      }
       { isLoggedIn ? null
         : <CreateTaskButton createTask={() => setShowCreateTaskModal(true)}/>}
       { showLoginModal ? <LoginModal closeModal={() => setShowLoginModal(false)} onLogin={() => console.log("hola")} />
