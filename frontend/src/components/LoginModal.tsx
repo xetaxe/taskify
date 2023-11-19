@@ -39,7 +39,11 @@ export const LoginModal = ({ closeModal, setIsLoggedIn }: LoginModalProps) => {
   };
 
   const handleSignup = () => {
-    if (username && email && password && password === repeatPassword) {
+    if (username && email && password) {
+      if ( password != repeatPassword ) {
+        setRegisterError("The two passwords are different")
+        return
+      }
       // Simulating a successful login
       signup({username: username, email: email, password: password})
       .then(data => {
