@@ -1,5 +1,5 @@
 from flask import request, jsonify
-from flask_login import login_required
+from flask_login import current_user, login_required
 from app.controllers.task_controller import TaskController
 from . import api_v1
 
@@ -22,10 +22,14 @@ def create_task():
     data = request.get_json()
     title = data.get('title')
     description = data.get('description')
-    author_id = data.get('author_id')
 
-    if not title or not author_id:
+    if not title:
         return jsonify({"error": "Title and author are required"}), 400
+    
+    if current_user.is_authenticated:
+        author_id = current_user.id
+    else:
+        return jsonify({"error": "User not authenticated"}), 401
 
     result = TaskController.create_task(title, description, author_id)
 
@@ -58,10 +62,14 @@ def update_task(task_id):
     data = request.get_json()
     title = data.get('title')
     description = data.get('description')
-    author_id = data.get('author_id')
 
-    if not any([title, description, author_id]):
+    if not any([title, description]):
         return jsonify({"error": "Provide at least one field to update"}), 400
+
+    if current_user.is_authenticated:
+        author_id = current_user.id
+    else:
+        return jsonify({"error": "User not authenticated"}), 401
 
     result = TaskController.update_task(task_id, title, description, author_id)
 
