@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { TaskList } from "./components/TaskList";
 import { Layout } from "./components/layout/Layout";
-import useCheckLoginStatus from "./hooks/useCheckLoginStatus";
 import { LoginModal } from "./components/LoginModal";
 import { CreateTaskButton } from "./components/CreateTaskButton";
 import { CreateTaskModal } from "./components/CreateTaskModal";
@@ -14,7 +13,16 @@ function App() {
   const [showCreateTaskModal, setShowCreateTaskModal] = useState(false)
   const [showUpdateTaskModal, setShowUpdateTaskModal] = useState<ShowUpdateTaskModal>({show: false})
 
-  const isLoggedIn = useCheckLoginStatus()
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+
+  useEffect(() => {
+    // Check for the presence of the session cookie
+    const cookieExists = document.cookie.split(';').some((cookie) => {
+      return cookie.trim().startsWith('session=');
+    });
+
+    setIsLoggedIn(cookieExists);
+  }, []);
 
   useEffect(() => {
     fetch("http://localhost:8080/api/v1/tasks", {
