@@ -1,3 +1,6 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { deleteTask } from "../api/taskApi"
+
 export type TaskItem = {
   id: number,
   title: string,
@@ -14,6 +17,16 @@ type TaskProps = {
 }
 
 export const Task = ({ edit, task, taskClick, updateTask}: TaskProps) => {
+
+  const queryClient = useQueryClient()
+
+  const mutation = useMutation({
+    mutationFn: deleteTask,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['tasks'] })
+    },
+  })
+
   return (
     <div className="task" onClick={()=> taskClick(task.id)}>
       {edit 
@@ -23,7 +36,8 @@ export const Task = ({ edit, task, taskClick, updateTask}: TaskProps) => {
               <button className="task_edit_update" onClick={()=> updateTask(task)}>
                 <img src="/icons/edit.svg" alt="Edit task" />
               </button>
-              <button className="task_edit_delete">
+              <button className="task_edit_delete" onClick={() =>
+              mutation.mutate(task.id)}>
                 <img src="/icons/delete.svg" alt="Delete task" />
               </button>
             </div>
