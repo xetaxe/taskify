@@ -1,8 +1,15 @@
 import { useState } from 'react';
 
+
+export type ShowUpdateTaskModal = {
+  show: boolean,
+  initialTitle?: string | undefined,
+  initialDescription?: string | undefined
+}
+
 type UpdateTaskModalProps = {
-  initialTitle: string,
-  initialDescription: string
+  initialTitle: string | undefined,
+  initialDescription: string | undefined,
   closeModal: () => void,
 }
 

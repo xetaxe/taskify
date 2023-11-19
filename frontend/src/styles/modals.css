@@ -5,6 +5,7 @@
     top: 0;
     left: 0;
     background-color: white;
+    z-index: 2;
 }
 
 .loginmodal_wrapper {
@@ -80,6 +81,7 @@
     top: 0;
     left: 0;
     background-color: rgba(0, 0, 0, 0.3);
+    z-index: 2;
 }
 
 .taskmodal_wrapper {

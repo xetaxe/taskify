@@ -2,16 +2,17 @@ import { useEffect, useState } from "react";
 import { TaskList } from "./components/TaskList";
 import { Layout } from "./components/layout/Layout";
 import useCheckLoginStatus from "./hooks/useCheckLoginStatus";
-// import { CreateTaskButton } from "./components/CreateTaskButton";
 import { LoginModal } from "./components/LoginModal";
 import { CreateTaskButton } from "./components/CreateTaskButton";
 import { CreateTaskModal } from "./components/CreateTaskModal";
+import { UpdateTaskModal, type ShowUpdateTaskModal } from "./components/UpdateTaskModal";
 
 function App() {
   
   const [tasks, setTasks] = useState([])
   const [showLoginModal, setShowLoginModal] = useState(false)
   const [showCreateTaskModal, setShowCreateTaskModal] = useState(false)
+  const [showUpdateTaskModal, setShowUpdateTaskModal] = useState<ShowUpdateTaskModal>({show: false})
 
   const isLoggedIn = useCheckLoginStatus()
 
@@ -30,12 +31,18 @@ function App() {
 
   return (
     <Layout isLoggedIn={isLoggedIn} showLogin={() => setShowLoginModal(true)}>
-      <TaskList tasks={tasks}/>
+      <TaskList tasks={tasks} isLoggedIn={isLoggedIn} updateTask={setShowUpdateTaskModal}/>
       { isLoggedIn ? null
         : <CreateTaskButton createTask={() => setShowCreateTaskModal(true)}/>}
       { showLoginModal ? <LoginModal closeModal={() => setShowLoginModal(false)} onLogin={() => console.log("hola")} />
         : null}
       { showCreateTaskModal ? <CreateTaskModal closeModal={() => setShowCreateTaskModal(false)}/>
+        : null}
+      { showUpdateTaskModal.show ? 
+          <UpdateTaskModal  
+            initialTitle={showUpdateTaskModal.initialTitle} 
+            initialDescription={showUpdateTaskModal.initialDescription} closeModal={() => setShowUpdateTaskModal({show: false})}
+          />
         : null}
     </Layout>
   )
