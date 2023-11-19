@@ -20,6 +20,22 @@ def login():
 
     return jsonify(result),
 
+@api_v1.route('/signup', methods=['POST'])
+def signup():
+    data = request.get_json()
+    username = data.get('username')
+    password = data.get('password')
+
+    if not username or not password:
+        return jsonify({"error": "Invalid username or password"}), 401
+
+    result = RegisterController.handle_signup(username, password)
+
+    if 'error' in result:
+        return jsonify(result), 500
+
+    return jsonify(result)
+
 @api_v1.route('/logout')
 @login_required
 def logout():
