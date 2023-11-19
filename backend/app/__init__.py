@@ -10,14 +10,11 @@ from .routes.v1 import api_v1
 
 def create_app():
     app = Flask(__name__)
-    cors = CORS(app, resources={r"/api/*": {"origins": "http://localhost:5173", "supports_credentials": True}})
+    cors = CORS(app, resources={r"/api/*": {"origins": ["http://localhost:5173", "http://localhost:4173"], "supports_credentials": True}})
 
     app.secret_key = 'my_secret_key'
     app.config['SESSION_TYPE'] = 'filesystem'
     app.config['SESSION_COOKIE_HTTPONLY'] = False
-    # app.config['SESSION_COOKIE_DOMAIN'] = 'localhost'
-    # app.config['SESSION_COOKIE_PATH'] = '/'
-    print(app.config)
 
     # Configuration for SQLite database
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
