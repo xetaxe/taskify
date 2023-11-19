@@ -22,6 +22,7 @@ export const createTask = async (taskData: {title: string, description: string})
     headers: {
       'Content-Type': 'application/json',
     },
+    credentials: 'include',
     body: JSON.stringify(taskData),
   });
   if (!response.ok) {
@@ -30,13 +31,16 @@ export const createTask = async (taskData: {title: string, description: string})
   return response.json();
 };
 
-export const updateTask = async (taskId: number, updatedTaskData: {title: string, description: string}) => {
-  const response = await fetch(`${API_BASE_URL}/v1/tasks/${taskId}`, {
+export const updateTask = async (updateTaskData: {taskId: number, title: string | undefined, description: string | undefined}) => {
+  if (!updateTaskData.title)
+    return
+  const response = await fetch(`${API_BASE_URL}/v1/tasks/${updateTaskData.taskId}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(updatedTaskData),
+    credentials: 'include',
+    body: JSON.stringify(updateTaskData),
   });
   if (!response.ok) {
     throw new Error('Failed to update task');

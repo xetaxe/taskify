@@ -13,7 +13,7 @@ function App() {
   
   const [showLoginModal, setShowLoginModal] = useState(false)
   const [showCreateTaskModal, setShowCreateTaskModal] = useState(false)
-  const [showUpdateTaskModal, setShowUpdateTaskModal] = useState<ShowUpdateTaskModal>({show: false})
+  const [showUpdateTaskModal, setShowUpdateTaskModal] = useState<ShowUpdateTaskModal>({show: false, taskId: 0})
 
   const [isLoggedIn, setIsLoggedIn] = useState(false)
 
@@ -59,9 +59,10 @@ function App() {
         : null
       }
       { showUpdateTaskModal.show ? 
-          <UpdateTaskModal  
+          <UpdateTaskModal
+            taskId={showUpdateTaskModal.taskId} 
             initialTitle={showUpdateTaskModal.initialTitle} 
-            initialDescription={showUpdateTaskModal.initialDescription} closeModal={() => setShowUpdateTaskModal({show: false})}
+            initialDescription={showUpdateTaskModal.initialDescription} closeModal={() => setShowUpdateTaskModal({show: false, taskId: 0})}
           />
         : null
       }

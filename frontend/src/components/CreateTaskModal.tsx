@@ -1,4 +1,6 @@
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
+import { createTask } from '../api/taskApi';
 
 type CreateTaskModalProps = {
   closeModal: () => void,
@@ -6,18 +8,19 @@ type CreateTaskModalProps = {
 
 export const CreateTaskModal = ({ closeModal }: CreateTaskModalProps) => {
 
+  const queryClient = useQueryClient()
+
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
-  const handleSubmit = () => {
-    if (title && description) {
-      // Simulating a successful login
-      // onLogin(); // Pass username to parent component
-      closeModal(); // Close the modal
-    } else {
-      console.log("nope")
-    }
-  };
+  const mutation = useMutation({
+    mutationFn: createTask,
+    onSuccess: () => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries({ queryKey: ['tasks'] })
+      closeModal()
+    },
+  })
 
   return (
     <div className="taskmodal">
@@ -42,7 +45,12 @@ export const CreateTaskModal = ({ closeModal }: CreateTaskModalProps) => {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
             />
-            <button onClick={handleSubmit}>Add task</button>
+            <button onClick={() => {
+              mutation.mutate({
+                title: title,
+                description: description,
+              })
+            }}>Add task</button>
           </div>
         </div>
       </div>

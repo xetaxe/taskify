@@ -1,33 +1,37 @@
 import { useState } from 'react';
+import { updateTask } from '../api/taskApi';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 
 export type ShowUpdateTaskModal = {
   show: boolean,
+  taskId: number,
   initialTitle?: string | undefined,
   initialDescription?: string | undefined
 }
 
 type UpdateTaskModalProps = {
+  taskId: number,
   initialTitle: string | undefined,
   initialDescription: string | undefined,
   closeModal: () => void,
 }
 
-export const UpdateTaskModal = ({ initialTitle, initialDescription, closeModal }: UpdateTaskModalProps) => {
+export const UpdateTaskModal = ({ taskId, initialTitle, initialDescription, closeModal }: UpdateTaskModalProps) => {
+
+  const queryClient = useQueryClient()
 
   const [title, setTitle] = useState(initialTitle);
   const [description, setDescription] = useState(initialDescription);
 
-  const handleSubmit = () => {
-    if (title && description) {
-      // Simulating a successful login
-      // onLogin(); // Pass username to parent component
-      closeModal(); // Close the modal
-    } else {
-      console.log("nope")
-    }
-  };
-
+  const mutation = useMutation({
+    mutationFn: updateTask,
+    onSuccess: () => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries({ queryKey: ['tasks'] })
+      closeModal()
+    },
+  })
   return (
     <div className="taskmodal">
       <div className="taskmodal_wrapper">
@@ -51,7 +55,13 @@ export const UpdateTaskModal = ({ initialTitle, initialDescription, closeModal }
               value={description}
               onChange={(e) => setDescription(e.target.value)}
             />
-            <button onClick={handleSubmit}>Update task</button>
+            <button onClick={() => {
+              mutation.mutate({
+                taskId: taskId,
+                title: title,
+                description: description,
+              })
+            }}>Update task</button>
           </div>
         </div>
       </div>

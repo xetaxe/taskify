@@ -36,7 +36,7 @@ def create_task():
     if 'error' in result:
         return jsonify(result), 500
 
-    return jsonify(result),
+    return jsonify(result), 201
 
 
 # Route for handling GET requests for a specific task

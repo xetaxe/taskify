@@ -29,6 +29,7 @@ export const TaskList = ({ isLoggedIn, tasks, updateTask }: TaskListProps) => {
       return
     updateTask({
       show: true,
+      taskId: task.id,
       initialTitle: task.title,
       initialDescription: task.description
     })
