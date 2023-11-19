@@ -1,11 +1,12 @@
 import { useState } from 'react';
+import { login, signup } from '../api/registerApi';
 
 type LoginModalProps = {
   closeModal: () => void,
-  onLogin: () => void
+  setIsLoggedIn: (value: React.SetStateAction<boolean>) => void
 }
 
-export const LoginModal = ({ closeModal, onLogin }: LoginModalProps) => {
+export const LoginModal = ({ closeModal, setIsLoggedIn }: LoginModalProps) => {
 
   const [showSignUp, setShowSignUp] = useState(false)
 
@@ -13,24 +14,42 @@ export const LoginModal = ({ closeModal, onLogin }: LoginModalProps) => {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
+  const [registerError, setRegisterError] = useState("");
 
   const handleLogin = () => {
     if (username && password) {
       // Simulating a successful login
-      onLogin(); // Pass username to parent component
-      closeModal(); // Close the modal
+      login({username: username, password: password})
+      .then(data => {
+        if (data['message']) {
+          // Check for the presence of the session cookie
+          console.log(document.cookie)
+          const cookieExists = document.cookie.split(';').some((cookie) => {
+            return cookie.trim().startsWith('session=');
+          });
+
+          setIsLoggedIn(cookieExists);
+          closeModal();
+        }
+      })
+      .catch(() => setRegisterError("The user does not exist or the credentials are wrong"))
     } else {
-      console.log("nope")
+      setRegisterError("Invalid credentials")
     }
   };
 
   const handleSignup = () => {
-    if (username && password) {
+    if (username && email && password && password === repeatPassword) {
       // Simulating a successful login
-      // onLogin(); // Pass username to parent component
-      closeModal(); // Close the modal
+      signup({username: username, email: email, password: password})
+      .then(data => {
+        if (!data.error) {
+          setShowSignUp(false);
+        }
+      })
+      .catch(() => setRegisterError("The user could not be created. Please try again later"))
     } else {
-      console.log("nope")
+      setRegisterError("Invalid data")
     }
   };
 
@@ -39,6 +58,7 @@ export const LoginModal = ({ closeModal, onLogin }: LoginModalProps) => {
     setEmail("")
     setPassword("")
     setRepeatPassword("")
+    setRegisterError("")
   }
 
   return (
@@ -67,7 +87,7 @@ export const LoginModal = ({ closeModal, onLogin }: LoginModalProps) => {
                   type="text"
                   placeholder="Email"
                   value={email}
-                  onChange={(e) => setUsername(e.target.value)}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
                 <input
                   type="password"
@@ -81,12 +101,15 @@ export const LoginModal = ({ closeModal, onLogin }: LoginModalProps) => {
                   value={repeatPassword}
                   onChange={(e) => setRepeatPassword(e.target.value)}
                 />
-                <button onClick={handleLogin}>Sign up</button>
+                <button onClick={handleSignup}>Sign up</button>
                 <div className="loginmodal_signup_text">
                   Go back to log in 
                   <span className="loginmodal_signup_link" onClick={() => {setShowSignUp(false); resetAllData()}}>
                     here
                   </span>
+                </div>
+                <div>
+                  {registerError}
                 </div>
               </div>
             </>
@@ -114,6 +137,9 @@ export const LoginModal = ({ closeModal, onLogin }: LoginModalProps) => {
                   <span className="loginmodal_signup_link" onClick={() => { setShowSignUp(true); resetAllData()}}>
                     here!
                   </span>
+                </div>
+                <div>
+                  {registerError}
                 </div>
               </div>
             </>

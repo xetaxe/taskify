@@ -16,8 +16,8 @@ export const TaskList = ({ isLoggedIn, tasks, updateTask }: TaskListProps) => {
     return null
 
   const handleTaskClick = (taskId : number) => {
-    // if (!isLoggedIn)
-    //   return
+    if (!isLoggedIn)
+      return
     if (editIndex === -1 || editIndex != taskId)
       setEditIndex(taskId)
     else
@@ -25,8 +25,8 @@ export const TaskList = ({ isLoggedIn, tasks, updateTask }: TaskListProps) => {
   }
 
   const handleUpdateTask = (task : TaskItem) => {
-    // if (!isLoggedIn)
-    //   return
+    if (!isLoggedIn)
+      return
     updateTask({
       show: true,
       initialTitle: task.title,

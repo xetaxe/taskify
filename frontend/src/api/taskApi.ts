@@ -9,7 +9,7 @@ export const getAllTasks = async () => {
 };
 
 export const getOneTask = async (taskId: number) => {
-  const response = await fetch(`${API_BASE_URL}/tasks/${taskId}`);
+  const response = await fetch(`${API_BASE_URL}/v1/tasks/${taskId}`);
   if (!response.ok) {
     throw new Error('Failed to fetch task');
   }
@@ -17,7 +17,7 @@ export const getOneTask = async (taskId: number) => {
 };
 
 export const createTask = async (taskData: {title: string, description: string}) => {
-  const response = await fetch(`${API_BASE_URL}/tasks`, {
+  const response = await fetch(`${API_BASE_URL}/v1/tasks`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -31,7 +31,7 @@ export const createTask = async (taskData: {title: string, description: string})
 };
 
 export const updateTask = async (taskId: number, updatedTaskData: {title: string, description: string}) => {
-  const response = await fetch(`${API_BASE_URL}/tasks/${taskId}`, {
+  const response = await fetch(`${API_BASE_URL}/v1/tasks/${taskId}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -45,7 +45,7 @@ export const updateTask = async (taskId: number, updatedTaskData: {title: string
 };
 
 export const deleteTask = async (taskId: number) => {
-  const response = await fetch(`${API_BASE_URL}/tasks/${taskId}`, {
+  const response = await fetch(`${API_BASE_URL}/v1/tasks/${taskId}`, {
     method: 'DELETE',
   });
   if (!response.ok) {

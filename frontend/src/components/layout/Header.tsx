@@ -1,9 +1,29 @@
+import { logout } from "../../api/registerApi";
+
 type HeaderProps = {
   isLoggedIn: boolean,
-  showLogin: () => void
+  showLogin: () => void,
+  setIsLoggedIn: (value: React.SetStateAction<boolean>) => void
 }
 
-export const Header = ({isLoggedIn, showLogin}: HeaderProps) => {
+export const Header = ({isLoggedIn, showLogin, setIsLoggedIn}: HeaderProps) => {
+
+  const handleLogout = () => {
+    logout()
+    .then(data => {
+      if (data['message']) {
+        // Check for the presence of the session cookie
+        console.log(document.cookie)
+        const cookieExists = document.cookie.split(';').some((cookie) => {
+          return cookie.trim().startsWith('session=');
+        });
+
+        setIsLoggedIn(cookieExists);
+      }
+    })
+    .catch((err) => console.log(err))
+  };
+
   return (
     <header className="header">
       <nav className="header_nav">
@@ -16,7 +36,7 @@ export const Header = ({isLoggedIn, showLogin}: HeaderProps) => {
           </span>
         </a>
         { isLoggedIn ? 
-            <img className="header_logout" src="/icons/logout.svg" alt="Taskify logo" />
+            <img className="header_logout" src="/icons/logout.svg" alt="Taskify logout" onClick={handleLogout} />
           : 
           <span className="header_login" onClick={showLogin}>
             Login

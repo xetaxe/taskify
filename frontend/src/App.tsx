@@ -33,7 +33,7 @@ function App() {
   })
 
   return (
-    <Layout isLoggedIn={isLoggedIn} showLogin={() => setShowLoginModal(true)}>
+    <Layout isLoggedIn={isLoggedIn} showLogin={() => setShowLoginModal(true)} setIsLoggedIn={setIsLoggedIn}>
       { isLoading ?
           <span>Loading...</span>
         : null
@@ -46,18 +46,25 @@ function App() {
           <TaskList tasks={data.tasks} isLoggedIn={isLoggedIn} updateTask={setShowUpdateTaskModal}/>
         : null          
       }
-      { isLoggedIn ? null
-        : <CreateTaskButton createTask={() => setShowCreateTaskModal(true)}/>}
-      { showLoginModal ? <LoginModal closeModal={() => setShowLoginModal(false)} onLogin={() => console.log("hola")} />
-        : null}
-      { showCreateTaskModal ? <CreateTaskModal closeModal={() => setShowCreateTaskModal(false)}/>
-        : null}
+      { isLoggedIn ? 
+        <CreateTaskButton createTask={() => setShowCreateTaskModal(true)}/> 
+        : null 
+      }
+      { showLoginModal ? 
+        <LoginModal closeModal={() => setShowLoginModal(false)} setIsLoggedIn={setIsLoggedIn} />
+        : null
+      }
+      { showCreateTaskModal ? 
+        <CreateTaskModal closeModal={() => setShowCreateTaskModal(false)}/>
+        : null
+      }
       { showUpdateTaskModal.show ? 
           <UpdateTaskModal  
             initialTitle={showUpdateTaskModal.initialTitle} 
             initialDescription={showUpdateTaskModal.initialDescription} closeModal={() => setShowUpdateTaskModal({show: false})}
           />
-        : null}
+        : null
+      }
     </Layout>
   )
 }

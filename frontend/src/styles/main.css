@@ -74,10 +74,10 @@ body {
   cursor: pointer;
 }
 
-.header_login {
+.header_logout {
   margin-left: auto;
   cursor: pointer;
-  filter: invert(-1);
+  filter: invert(1);
 }
 
 main {

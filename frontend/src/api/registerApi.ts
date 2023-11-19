@@ -1,11 +1,12 @@
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 
 export const login = async (credentials: { username: string; password: string }) => {
-  const response = await fetch(`${API_BASE_URL}/login`, {
+  const response = await fetch(`${API_BASE_URL}/v1/login`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
+    credentials: 'include',
     body: JSON.stringify(credentials),
   });
   if (!response.ok) {
@@ -14,11 +15,11 @@ export const login = async (credentials: { username: string; password: string })
   return response.json();
 };
 
-export const signup = async (userData: { username: string; password: string }) => {
-  const response = await fetch(`${API_BASE_URL}/signup`, {
+export const signup = async (userData: { username: string; email: string, password: string }) => {
+  const response = await fetch(`${API_BASE_URL}/v1/signup`, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": 'application/json',
     },
     body: JSON.stringify(userData),
   });
@@ -29,7 +30,7 @@ export const signup = async (userData: { username: string; password: string }) =
 };
 
 export const logout = async () => {
-  const response = await fetch(`${API_BASE_URL}/logout`, {
+  const response = await fetch(`${API_BASE_URL}/v1/logout`, {
     method: 'POST',
     credentials: 'include',
   });
